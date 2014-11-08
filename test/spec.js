@@ -76,9 +76,9 @@
       it("should load from file", function () {
         expect(this.part('./test/t1.js'))
           .to.deep.equal([
-            section("", 1, "'use strict';\n", 1),
-            section("comment1\n", 2, "var code1 = 1;\n", 3),
-            section("comment2\n", 4, "var code2 = 2;\n\n", 5)
+            section("", 1, "(function () {\n  'use strict';\n", 1),
+            section("comment1\n", 3, "  var code1 = 1;\n", 4),
+            section("comment2\n", 5, "  var code2 = 2;\n})();\n\n", 6)
           ]);
       });
     });
