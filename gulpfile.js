@@ -21,13 +21,13 @@ function runCoverage (opts) {
 }
 
 gulp.task("clean", function (done) {
-  del(["coverage.html", "debug/**/*", "debug"]);
+  del(["coverage.html", "debug/**/*", "debug"], done);
 });
 
 gulp.task("lint", function () {
   return gulp.src(lintSrc)
-    .pipe(jshint())
-    .pipe(jshint.reporter(require('jshint-table-reporter')));
+    .pipe($.jshint())
+    .pipe($.jshint.reporter(require('jshint-table-reporter')));
 });
 
 gulp.task('coveralls', ['clean'], function () {
