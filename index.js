@@ -1,6 +1,5 @@
 'use strict';
 var _ = require('lodash');
-var gutil = require('gulp-util');
 var path = require('path');
 var docco = require('docco');
 var HtmlParser = require('htmlparser2').Parser;
@@ -56,11 +55,14 @@ Formatter.prototype.addToLines = function (count) {
 
 Formatter.prototype.addToken = function (token) {
   var needsSection =
-      !this.currentSection            // First time here
-    || this.currentSection.codeSet    // Code set means no more tokens,
-                                      //     comments come before Code.
-    || token.type === 'comment'       // Comments are set once.
-      && this.currentSection.docsSet;
+    // First time here
+    !this.currentSection ||
+    // Code set means no more tokens,
+    // comments come before Code.    
+    this.currentSection.codeSet ||
+    // Comments are set once.
+    token.type === 'comment' &&
+    this.currentSection.docsSet;
 
   if (needsSection)
     this.currentSection = new Section(this);
@@ -99,7 +101,7 @@ Section.prototype.add = function (token) {
 };
 
 function partWithDocco(pathName, code, options) {
-  if (!options.languages) options.languages = {}
+  if (!options.languages) options.languages = {};
   var sections = docco.parse(pathName, code, options);
   var startLine = 1;
   _.forEach(sections, function (section) {
