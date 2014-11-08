@@ -1,4 +1,4 @@
-
+'use strict';
 var part = require('./index.js');
 
 var filePath = process.argv[2] || 't.js';
