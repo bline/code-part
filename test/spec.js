@@ -1,4 +1,5 @@
 (function () {
+  "use strict";
   function section(docs, docsLine, code, codeLine) {
     return {
       docsText: docs,
@@ -9,7 +10,7 @@
   }
   describe("part#exports", function () {
     it("should load without throwing errors", function () {
-      (function () { require("../index.js") })
+      (function () { require("../index.js"); })
         .should.not.throw();
     });
     it("should be a function", function () {
@@ -21,7 +22,7 @@
         .should.equal(3);
     });
     it("should throw Error with no args", function () {
-      (function () { require("../index.js")() })
+      (function () { require("../index.js")(); })
         .should.throw(Error);
     });
   });
@@ -72,6 +73,14 @@
         expect(this.part('t1.js', "// t1\ncode=1;\n// t2\nvar foo = 1;"))
           .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "var foo = 1;\n", 4)]);
       });
+      it("should load from file", function () {
+        expect(this.part('./test/t1.js'))
+          .to.deep.equal([
+            section("", 1, "'use strict';\n", 1),
+            section("comment1\n", 2, "var code1 = 1;\n", 3),
+            section("comment2\n", 4, "var code2 = 2;\n\n", 5)
+          ]);
+      });
     });
     describe("htmlParser", function () {
       it("should extract empty", function () {
@@ -112,4 +121,4 @@
       });
     });
   });
-}).call(this);
+})();
