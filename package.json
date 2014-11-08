@@ -1,0 +1,35 @@
+{
+  "name": "code-comb",
+  "version": "1.0.0",
+  "description": "Parts comments and code with cheerio for html and docco for everything else",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bline/code-comb.git"
+  },
+  "keywords": [
+    "docco",
+    "cheerio"
+  ],
+  "author": "Scott Beck (@bline)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bline/code-comb/issues"
+  },
+  "homepage": "https://github.com/bline/code-comb",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "gulp": "^3.8.10",
+    "gulp-mocha": "^1.1.1",
+    "gulp-plumber": "^0.6.6"
+  },
+  "dependencies": {
+    "cheerio": "^0.18.0",
+    "docco": "^0.6.3",
+    "htmlparser2": "^3.8.2",
+    "lodash": "^2.4.1"
+  }
+}
