@@ -89,6 +89,7 @@
     if (token.type === 'code') {
       this.attrs.codeText = token.value;
       this.attrs.codeLine = this.parent.currentLine;
+      if (/^\n/.test(token.value)) this.attrs.codeLine++;
       this.codeSet = true;
       this.parent.addToLines(countLines(token.value));
     } else {

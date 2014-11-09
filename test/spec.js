@@ -97,7 +97,7 @@
       });
       it("should extract comment|code", function () {
         expect(this.part('t1.html', "<!-- t1 -->\n<code a=\"1\"></code>"))
-          .to.deep.equal([section("t1", 1, "\n<code a=\"1\"></code>", 1)]);
+          .to.deep.equal([section("t1", 1, "\n<code a=\"1\"></code>", 2)]);
       });
       it("should extract code|comment", function () {
         expect(this.part('t1.html', "<code></code>\n<!-- foo bar baz -->"))
@@ -113,11 +113,11 @@
       });
       it("should extract comment|code|comment", function () {
         expect(this.part('t1.html', "<!-- t1 -->\n<!-- t2 -->"))
-          .to.deep.equal([section("t1", 1, "\n", 1), section("t2", 2, "", 2)]);
+          .to.deep.equal([section("t1", 1, "\n", 2), section("t2", 2, "", 2)]);
       });
       it("should extract comment|code|comment|code", function () {
         expect(this.part('t1.html', "<!-- t1 --><div/>\n<!-- t2 -->\n<h2>\n"))
-          .to.deep.equal([section("t1", 1, "<div/>\n", 1), section("t2", 2, "\n<h2>\n", 2)]);
+          .to.deep.equal([section("t1", 1, "<div/>\n", 1), section("t2", 2, "\n<h2>\n", 3)]);
       });
     });
   });
