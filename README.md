@@ -69,14 +69,14 @@ output:
   { docsText: 'title part',
     docsLine: 2,
     codeText: '\n  <head><title> title </title></head>\n<body>\n  ',
-    codeLine: 2 },
+    codeLine: 3 },
   { docsText: 'main body',
     docsLine: 5,
     codeText: '\n  <h1>hello world</h1>\n',
-    codeLine: 5 },
+    codeLine: 6 },
   { docsText: 'the end',
     docsLine: 7,
     codeText: '\n</body>\n</html>\n',
-    codeLine: 7 } ]
+    codeLine: 8 } ]
 ```
 
