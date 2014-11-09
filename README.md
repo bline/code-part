@@ -1,5 +1,5 @@
 # code-part
-[![GitHub version](https://badge.fury.io/gh/bline%2Fcode-part.svg)](http://badge.fury.io/gh/bline%2Fcode-part) [![Build Status](https://secure.travis-ci.org/bline/code-part.png?branch=master)](http://travis-ci.org/bline/code-part) [![Coverage Status](https://coveralls.io/repos/bline/code-part/badge.png?branch=master)](https://coveralls.io/r/bline/code-part?branch=master) [![Dependency Status](https://david-dm.org/bline/code-part.svg)](https://david-dm.org/bline/code-part) [![devDependency Status](https://david-dm.org/bline/code-part/dev-status.svg)](https://david-dm.org/bline/code-part#info=devDependencies)
+[![npm version](https://badge.fury.io/js/code-part.svg)](http://badge.fury.io/js/code-part) [![Build Status](https://secure.travis-ci.org/bline/code-part.png?branch=master)](http://travis-ci.org/bline/code-part) [![Coverage Status](https://coveralls.io/repos/bline/code-part/badge.png?branch=master)](https://coveralls.io/r/bline/code-part?branch=master) [![Dependency Status](https://david-dm.org/bline/code-part.svg)](https://david-dm.org/bline/code-part) [![devDependency Status](https://david-dm.org/bline/code-part/dev-status.svg)](https://david-dm.org/bline/code-part#info=devDependencies)
 
 Parts comments and code into a data structure with htmlParser2 for html and
 docco for everything else. Also tracks starting line number for each chunk so
@@ -16,9 +16,25 @@ display the code.
   // Path is used to decide which parser
   // to use for both code-part and docco.
   var sections = part(path, code, config); // config is passed to docco
-                                           // not used in htmlParser2 code path
 
   // If code is null, path is read in as code
+```
+
+## Configuration
+
+```javascript
+
+  var section = part(path, code, {
+    // options used when parsing html
+    noSkipDirectives: false, // default
+
+    // controls when to use the htmlParser
+    htmlParserExt: ['.html', '.xml'] // default
+
+    // all other options passed to docco when
+    // parsing anything other than what is
+    // matched by htmlParserExt eg non-html
+  });
 ```
 
 ## Sections
