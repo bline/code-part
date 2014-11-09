@@ -24,7 +24,7 @@
   "devDependencies": {
     "chai": "1.9.x",
     "del": "0.1.x",
-    "gulp": "3.6.x",
+    "gulp": "3.8.x",
     "gulp-coverage": "0.3.x",
     "gulp-coveralls": "0.1.x",
     "gulp-jshint": "1.9.x",
