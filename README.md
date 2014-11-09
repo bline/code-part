@@ -37,7 +37,7 @@ display the code.
   });
 ```
 
-## Sections
+## Output
 
 * input:
 
@@ -95,4 +95,11 @@ output:
     codeText: '\n</body>\n</html>\n',
     codeLine: 8 } ]
 ```
+
+## LICENSE
+
+Copyright (C) 2014 Scott Beck, all rights reserved
+
+Licensed under the MIT license
+
 
