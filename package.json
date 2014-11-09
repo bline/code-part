@@ -35,8 +35,8 @@
     "opn": "1.0.x"
   },
   "dependencies": {
-    "docco": "0.5.x",
+    "docco": "0.6.x",
     "htmlparser2": "3.8.x",
-    "lodash": "2.3.x"
+    "lodash": "2.4.x"
   }
 }
