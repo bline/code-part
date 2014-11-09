@@ -1,5 +1,5 @@
 {
-  "name": "code-comb",
+  "name": "code-part",
   "version": "1.0.0",
   "description": "Parts comments and code with htmlParser2 for html and docco for everything else",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "engine": "node >= 0.10",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bline/code-comb.git"
+    "url": "https://github.com/bline/code-part.git"
   },
   "keywords": [
     "docco",
@@ -18,9 +18,9 @@
   "author": "Scott Beck (@bline)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bline/code-comb/issues"
+    "url": "https://github.com/bline/code-part/issues"
   },
-  "homepage": "https://github.com/bline/code-comb",
+  "homepage": "https://github.com/bline/code-part",
   "devDependencies": {
     "chai": "1.9.x",
     "del": "0.1.x",
