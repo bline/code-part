@@ -119,6 +119,10 @@
         expect(this.part('t1.html', "<!-- t1 --><div/>\n<!-- t2 -->\n<h2>\n"))
           .to.deep.equal([section("t1", 1, "<div/>\n", 1), section("t2", 2, "\n<h2>\n", 3)]);
       });
+      it("should skip directives", function () {
+        expect(this.part('t.html', "<div>\n<!--[if foo]--></div>"))
+          .to.deep.equal([section("", 1, "<div>\n<!--[if foo]--></div>", 1)]);
+      });
     });
   });
 })();

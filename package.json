@@ -1,6 +1,6 @@
 {
   "name": "code-part",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Parts comments and code with htmlParser2 for html and docco for everything else",
   "main": "index.js",
   "scripts": {

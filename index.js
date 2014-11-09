@@ -28,6 +28,8 @@
         pushCode(lastEnd, comment.start);
     }
     function onComment(text) {
+      // skip directives XXX make config options
+      if (/^\[/.test(text)) return;
       var comment = { start: parser.startIndex, end: parser.endIndex };
       flushCode(comment);
       pushComment(text);
