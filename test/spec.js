@@ -123,6 +123,18 @@
         expect(this.part('t.html', "<div>\n<!--[if foo]--></div>"))
           .to.deep.equal([section("", 1, "<div>\n<!--[if foo]--></div>", 1)]);
       });
+      it("should explicitly skip directives", function () {
+        expect(this.part('t.html', "<div>\n<!--[if foo]--></div>", {noSkipDirectives: false}))
+          .to.deep.equal([section("", 1, "<div>\n<!--[if foo]--></div>", 1)]);
+      });
+      it("should not skip directives", function () {
+        expect(this.part('t.html', "<div>\n<!--[if foo]--></div>", {noSkipDirectives: true}))
+          .to.deep.equal([section("", 1, "<div>\n", 1), section("[if foo]", 2, "</div>", 2)]);
+      });
+      it("should respect new extension", function () {
+        expect(this.part('t1.foo', "<!-- t1 -->\n<code a=\"1\"></code>", {htmlParserExt: '.foo'}))
+          .to.deep.equal([section("t1", 1, "\n<code a=\"1\"></code>", 2)]);
+      });
     });
   });
 })();

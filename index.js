@@ -1,3 +1,4 @@
+// # code-part
 (function () {
   'use strict';
   var _ = require('lodash');
@@ -6,6 +7,7 @@
   var HtmlParser = require('htmlparser2').Parser;
 
   var defaultOptions = {
+    noSkipDirectives: false,
     htmlParserExt: ['.html', '.xml']
   };
 
@@ -13,7 +15,7 @@
     return str.split("\n").length - 1;
   }
 
-  function tokenizeHtml(code) {
+  function tokenizeHtml(code, options) {
     var parser, lastComment = null, tokens = [];
 
     function pushComment(text) {
@@ -28,8 +30,8 @@
         pushCode(lastEnd, comment.start);
     }
     function onComment(text) {
-      // skip directives XXX make config options
-      if (/^\[/.test(text)) return;
+      // skip directives
+      if (!options.noSkipDirectives && /^\[/.test(text)) return;
       var comment = { start: parser.startIndex, end: parser.endIndex };
       flushCode(comment);
       pushComment(text);
