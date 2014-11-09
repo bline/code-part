@@ -47,7 +47,8 @@
   gulp.task("test", ['clean', 'lint'], function () {
     return gulp.src(testSrc, { read: false })
       .pipe($.plumber())
-      .pipe($.mocha({reporter: 'spec', globals: ['expect', 'should']}))
+      .pipe($.mocha({reporter: 'spec', globals: ['expect', 'should']})
+           .on('error', function () { this.emit('end'); }))
       .pipe($.plumber.stop());
   });
 
