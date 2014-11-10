@@ -1,7 +1,7 @@
 {
   "name": "code-part",
   "version": "1.0.4",
-  "description": "Parts comments and code with htmlParser2 for html and docco for everything else",
+  "description": "Parts comments and code with htmlParser2 for html and line based parsing (like docco) for everything else",
   "main": "index.js",
   "scripts": {
     "test": "gulp test"
@@ -35,7 +35,6 @@
     "opn": "1.0.x"
   },
   "dependencies": {
-    "docco": "0.6.x",
     "htmlparser2": "3.8.x",
     "lodash": "2.4.x"
   }
