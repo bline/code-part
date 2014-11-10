@@ -2,15 +2,25 @@
 [![npm version](https://badge.fury.io/js/code-part.svg)](http://badge.fury.io/js/code-part) [![Build Status](https://secure.travis-ci.org/bline/code-part.png?branch=master)](http://travis-ci.org/bline/code-part) [![Coverage Status](https://coveralls.io/repos/bline/code-part/badge.png?branch=master)](https://coveralls.io/r/bline/code-part?branch=master) [![Dependency Status](https://david-dm.org/bline/code-part.svg)](https://david-dm.org/bline/code-part) [![devDependency Status](https://david-dm.org/bline/code-part/dev-status.svg)](https://david-dm.org/bline/code-part#info=devDependencies)
 
 Parts comments and code into a data structure with htmlParser2 for html and
-line based comment parsing for everything else. Also tracks starting line
-number for each chunk so it's possible to add line number if you plan to use a
-syntax highlighter like
+line based comment parsing for everything else. code-part tracks starting line
+numbers for each code section so it's possible to add line numbers if you plan
+to use a syntax highlighter like
 [google-code-prettify](https://code.google.com/p/google-code-prettify/) to
-display the code.
+display your code.
 
-The code for line based parsing was modified from [docco](http://jashkenas.github.io/docco/).
+code-part's code for line based parsing was modified from
+[docco](http://jashkenas.github.io/docco/). This code base does not include
+docco. The only current dependencies are
+[htmlParser2](https://github.com/fb55/htmlparser2) and
+[lodash](https://lodash.com/).
 
-[lineBased]: ./lib/parser/linebased.js
+Comment support for everything except html only extracts comments
+at the beginning of the line and only the single line version of
+the languages comment. For example `/* not extracted */` does not
+get extracted but `// extracted` does.
+
+To see a list of the languages supported by the line based parsing
+have a look at [resources/languages.json](./resources/languages.json).
 
 ## Usage
 
@@ -19,7 +29,7 @@ The code for line based parsing was modified from [docco](http://jashkenas.githu
   var part = require('code-part');
 
   // Path is used to decide which parser to use
-  // (html or [lineBased] currently) and decides comment
+  // (html or lineBased currently) and decides comment
   // parsing in lineBased.
   var sections = part(path, code, config);
 
@@ -105,6 +115,37 @@ output:
     codeText: '\n</body>\n</html>\n',
     codeLine: 8 } ]
 ```
+## BUGS
+
+It is possible to use jade, but multi-line comments are not supported.
+
+Supported:
+
+```jade
+
+html
+  // comment 1
+  head
+    // comment 2
+    title A Title
+```
+
+***Not Supported:***
+
+```
+html
+  //
+    This is a
+    multi-line comment
+    and is not supported
+  head
+    title Another Title
+```
+
+## TODO
+
+* Multi-line comment parsing like [jade](http://jade-lang.com/) comments.
+* 
 
 ## LICENSE
 
