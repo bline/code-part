@@ -10,6 +10,8 @@ display the code.
 
 The code for line based parsing was modified from [docco](http://jashkenas.github.io/docco/).
 
+[lineBased]: ./lib/parser/linebased.js
+
 ## Usage
 
 ```javascript
@@ -17,7 +19,7 @@ The code for line based parsing was modified from [docco](http://jashkenas.githu
   var part = require('code-part');
 
   // Path is used to decide which parser to use
-  // (html or lineBased currently) and decides comment
+  // (html or [lineBased] currently) and decides comment
   // parsing in lineBased.
   var sections = part(path, code, config);
 
@@ -38,7 +40,7 @@ The code for line based parsing was modified from [docco](http://jashkenas.githu
 
     // Used instead of path's extension when determining
     // the parser (html or lineBased). Also used in the
-    // [lineBased parser](./lib/parser/linebased.js)
+    // lineBased parser.
     // when looking up comment markers and deciding if it
     // is literate (litcoffee).
     extension: '.css'
