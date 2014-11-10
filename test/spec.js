@@ -36,55 +36,97 @@
     beforeEach(function () {
       this.part = require("../index.js");
     });
-    // XXX docco adds a new line to the end of the
-    // last section.
-    describe("docco", function () {
+    describe("lineBased", function () {
       it("should extract empty", function () {
         expect(this.part('t1.js', ""))
-          .to.deep.equal([section("", 1, "\n", 1)]);
+          .to.deep.equal([]);
+      });
+      it("should extract literate empty", function () {
+        expect(this.part('t1.litcoffee', ""))
+          .to.deep.equal([]);
       });
       it("should extract comment", function () {
-        expect(this.part('t1.js', "// t1"))
-          .to.deep.equal([section("t1\n", 1, "", 2)]);
+        expect(this.part('Cakefile', "# t1"))
+          .to.deep.equal([section("t1", 1, "", 1)]);
+      });
+      it("should extract literate comment", function () {
+        expect(this.part('t1.litcoffee', "t1"))
+          .to.deep.equal([section("t1", 1, "", 1)]);
       });
       it("should extract code", function () {
         expect(this.part('t1.js', "var code = 1;"))
-          .to.deep.equal([section("", 1, "var code = 1;\n", 1)]);
+          .to.deep.equal([section("", 1, "var code = 1;", 1)]);
+      });
+      it("should extract literate code", function () {
+        expect(this.part('t1.litcoffee', "\tcode = 1"))
+          .to.deep.equal([section("", 1, "code = 1", 1)]);
       });
       it("should extract comment|code", function () {
         expect(this.part('t1.js', "// t1\ncode = 1;"))
-          .to.deep.equal([section("t1\n", 1, "code = 1;\n", 2)]);
+          .to.deep.equal([section("t1\n", 1, "code = 1;", 2)]);
+      });
+      it("should extract literate comment|code", function () {
+        expect(this.part('t1.litcoffee', "t1\n\n\tcode = 1"))
+          .to.deep.equal([section("t1\n\n", 1, "code = 1", 3)]);
       });
       it("should extract code|comment", function () {
-        expect(this.part('t1.js', "var code = 'foo';\n// t1"))
-          .to.deep.equal([section("", 1, "var code = 'foo';\n", 1), section("t1\n", 2, "", 3)]);
+        expect(this.part('Cakefile', "code = 'foo';\n# t1"))
+          .to.deep.equal([section("", 1, "code = 'foo';\n", 1), section("t1", 2, "", 2)]);
+      });
+      it("should extract literate code|comment", function () {
+        expect(this.part('t1.litcoffee', "\tcode = 'foo'\n\nt1"))
+          .to.deep.equal([section("", 1, "code = 'foo'\n\n", 1), section("t1", 3, "", 3)]);
       });
       it("should extract comment|comment", function () {
         expect(this.part('t1.js', "// t1\n// t2"))
-          .to.deep.equal([section("t1\nt2\n", 1, "", 3)]);
+          .to.deep.equal([section("t1\nt2", 1, "", 2)]);
+      });
+      it("should extract literate comment|comment", function () {
+        expect(this.part('t1.litcoffee', "t1\nt2"))
+          .to.deep.equal([section("t1\nt2", 1, "", 2)]);
       });
       it("should extract code|code", function () {
         expect(this.part('t1.js', "var foo = 1,\n\tbar = 2;"))
-          .to.deep.equal([section("", 1, "var foo = 1,\n\tbar = 2;\n", 1)]);
+          .to.deep.equal([section("", 1, "var foo = 1,\n    bar = 2;", 1)]);
+      });
+      it("should extract literate code|code", function () {
+        expect(this.part('t1.litcoffee', "\tfoo = 1,\n\tbar = 2"))
+          .to.deep.equal([section("", 1, "foo = 1,\nbar = 2", 1)]);
       });
       it("should extract comment|code|comment", function () {
         expect(this.part('t1.js', "// t1\ncode=1;\n// t2"))
-          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "", 4)]);
+          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2", 3, "", 3)]);
+      });
+      it("should extract literate comment|code|comment", function () {
+        expect(this.part('t1.litcoffee', "t1\n\n    code=1\n\nt2"))
+          .to.deep.equal([section("t1\n\n", 1, "code=1\n\n", 3), section("t2", 5, "", 5)]);
       });
       it("should extract comment|code|comment|code", function () {
         expect(this.part('t1.js', "// t1\ncode=1;\n// t2\nvar foo = 1;"))
-          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "var foo = 1;\n", 4)]);
+          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "var foo = 1;", 4)]);
+      });
+      it("should extract literate comment|code|comment|code", function () {
+        expect(this.part('t1.litcoffee', "t1\n\n\tcode=1\n\nt2\n\n\tfoo = 1"))
+          .to.deep.equal([section("t1\n\n", 1, "code=1\n\n", 3), section("t2\n\n", 5, "foo = 1", 7)]);
       });
       it("should extract code|comment|code|comment|code", function () {
         expect(this.part('t1.js', "// t1\ncode=1;\n// t2\nvar foo = 1;"))
-          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "var foo = 1;\n", 4)]);
+          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("t2\n", 3, "var foo = 1;", 4)]);
+      });
+      it("should extract literate code|comment|code|comment|code", function () {
+        expect(this.part('t1.litcoffee', "t1\n\n\tcode=1\n\nt2\n\n\tfoo = 1"))
+          .to.deep.equal([section("t1\n\n", 1, "code=1\n\n", 3), section("t2\n\n", 5, "foo = 1", 7)]);
+      });
+      it("should end doc", function () {
+        expect(this.part('t1.js', "// t1\ncode=1;\n//----\nvar foo = 1;"))
+          .to.deep.equal([section("t1\n", 1, "code=1;\n", 2), section("----\n", 3, "", 4), section("", 4, "var foo = 1;", 4)]);
       });
       it("should load from file", function () {
         expect(this.part('./test/t1.js'))
           .to.deep.equal([
             section("", 1, "(function () {\n  'use strict';\n", 1),
             section("comment1\n", 3, "  var code1 = 1;\n", 4),
-            section("comment2\n", 5, "  var code2 = 2;\n})();\n\n", 6)
+            section("comment2\n", 5, "  var code2 = 2;\n})();\n", 6)
           ]);
       });
     });
@@ -138,7 +180,7 @@
           .to.deep.equal([section("", 1, "<div>\n", 1), section("[if foo]", 2, "</div>", 2)]);
       });
       it("should respect new extension", function () {
-        expect(this.part('t1.foo', "<!-- t1 -->\n<code a=\"1\"></code>", {htmlParserExt: '.foo'}))
+        expect(this.part('t1.foo', "<!-- t1 -->\n<code a=\"1\"></code>", {extension: '.html'}))
           .to.deep.equal([section("t1", 1, "\n<code a=\"1\"></code>", 2)]);
       });
     });
