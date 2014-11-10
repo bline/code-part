@@ -2,10 +2,13 @@
 [![npm version](https://badge.fury.io/js/code-part.svg)](http://badge.fury.io/js/code-part) [![Build Status](https://secure.travis-ci.org/bline/code-part.png?branch=master)](http://travis-ci.org/bline/code-part) [![Coverage Status](https://coveralls.io/repos/bline/code-part/badge.png?branch=master)](https://coveralls.io/r/bline/code-part?branch=master) [![Dependency Status](https://david-dm.org/bline/code-part.svg)](https://david-dm.org/bline/code-part) [![devDependency Status](https://david-dm.org/bline/code-part/dev-status.svg)](https://david-dm.org/bline/code-part#info=devDependencies)
 
 Parts comments and code into a data structure with htmlParser2 for html and
-docco for everything else. Also tracks starting line number for each chunk so
-it's possible to add line number if you plan to use a syntax highlighter like
+line based comment parsing for everything else. Also tracks starting line
+number for each chunk so it's possible to add line number if you plan to use a
+syntax highlighter like
 [google-code-prettify](https://code.google.com/p/google-code-prettify/) to
 display the code.
+
+The code for line based parsing was modified from [docco](http://jashkenas.github.io/docco/).
 
 ## Usage
 
@@ -13,11 +16,14 @@ display the code.
 
   var part = require('code-part');
 
-  // Path is used to decide which parser
-  // to use for both code-part and docco.
-  var sections = part(path, code, config); // config is passed to docco
+  // Path is used to decide which parser to use
+  // (html or lineBased currently) and decides comment
+  // parsing in lineBased.
+  var sections = part(path, code, config);
 
-  // If code is null, path is read in as code
+  // If code is null, the specified path is assumed
+  // to be a path on the file system and is read in
+  // with `readFileSync`.
 ```
 
 ## Configuration
@@ -25,15 +31,17 @@ display the code.
 ```javascript
 
   var section = part(path, code, {
-    // options used when parsing html
+    // Options used when parsing html.
+    // By default the parser will skip comments that start with
+    // `<!--[`. Set to `true` to include these as comments.
     noSkipDirectives: false, // default
 
-    // controls when to use the htmlParser
-    htmlParserExt: ['.html', '.xml'] // default
-
-    // all other options passed to docco when
-    // parsing anything other than what is
-    // matched by htmlParserExt eg non-html
+    // Used instead of path's extension when determining
+    // the parser (html or lineBased). Also used in the
+    // [lineBased parser](./lib/parser/linebased.js)
+    // when looking up comment markers and deciding if it
+    // is literate (litcoffee).
+    extension: '.css'
   });
 ```
 
@@ -52,12 +60,12 @@ if (code) code += 1
 
 ```javascript
 [ { docsText: 'comment 1\n',
-    codeText: 'var code = 1;\n',
     docsLine: 1,
+    codeText: 'var code = 1;\n',
     codeLine: 2 },
   { docsText: 'comment 2\n',
-    codeText: 'if (code) code += 1\n\n',
     docsLine: 3,
+    codeText: 'if (code) code += 1\n',
     codeLine: 4 } ]
 ```
 
