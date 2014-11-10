@@ -1,4 +1,5 @@
 { ".coffee":      {"name": "coffeescript", "symbol": "#"},
+  ".jade":        {"name": "jade", "symbol": "//"},
   ".litcoffee":   {"name": "coffeescript", "symbol": "#", "literate": true},
   "Cakefile":     {"name": "coffeescript", "symbol": "#"},
   ".rb":          {"name": "ruby", "symbol": "#"},
