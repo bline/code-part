@@ -11,13 +11,13 @@
   var opn = require('opn');
   var del = require('del');
 
-  var lintSrc = ['./gulpfile.js', './index.js', 'test/**/*.js', 'bin/*.js'];
+  var lintSrc = ['./gulpfile.js', './index.js', './lib/**/*.js', 'test/**/*.js', 'bin/*.js'];
   var testSrc = ['test/*helper.js', 'test/*spec.js'];
 
   function runCoverage (opts) {
     return gulp.src(testSrc, { read: false })
       .pipe($.coverage.instrument({
-        pattern: ['./index.js'],
+        pattern: ['./lib/**/*.js'],
         debugDirectory: 'debug'}))
       .pipe($.plumber())
       .pipe($.mocha({reporter: 'dot'})
