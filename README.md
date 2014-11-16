@@ -11,13 +11,16 @@ display your code.
 code-part's code for line based parsing was modified from
 [docco](http://jashkenas.github.io/docco/). This code base does not include
 docco. The only current dependencies are
-[htmlParser2](https://github.com/fb55/htmlparser2) and
-[lodash](https://lodash.com/).
+[htmlParser2](https://github.com/fb55/htmlparser2),
+[lodash](https://lodash.com/) and [dox](https://github.com/tj/dox/).
 
 Comment support for everything except html only extracts comments
 at the beginning of the line and only the single line version of
 the languages comment. For example `/* not extracted */` does not
 get extracted but `// extracted` does.
+
+The dox version does the opposite. Skipping line based comments and parsing
+only multi-line based. Obviously dox only works with JavaScript.
 
 To see a list of the languages supported by the line based parsing
 have a look at [resources/languages.json](./resources/languages.json).
@@ -62,6 +65,45 @@ have a look at [resources/languages.json](./resources/languages.json).
 * input:
 
 ```javascript
+/** a comment
+ * @api private
+ */
+// another comment
+somecode = 1;
+someothercode = 2;
+```
+
+* output:
+
+```
+{ split: 
+   [ { docsText: '',
+       docsLine: 1,
+       codeText: '/** a comment\n * @api private\n */\n',
+       codeLine: 1 },
+     { docsText: 'another comment\n',
+       docsLine: 4,
+       codeText: 'somecode = 1;\nsomeothercode = 2;\n',
+       codeLine: 5 } ],
+  dox: 
+   [ { tags: [ { type: 'api', visibility: 'private' } ],
+       description: 
+        { full: 'a comment',
+          summary: 'a comment',
+          body: '' },
+       isPrivate: true,
+       isConstructor: false,
+       isEvent: false,
+       ignore: false,
+       line: 1,
+       codeStart: 4,
+       code: '// another comment\nsomecode = 1;\nsomeothercode = 2;',
+       ctx: undefined } ] }
+```
+
+* input:
+
+```javascript
 // comment 1
 var code = 1;
 // comment 2
@@ -71,14 +113,25 @@ if (code) code += 1
 * output:
 
 ```javascript
-[ { docsText: 'comment 1\n',
-    docsLine: 1,
-    codeText: 'var code = 1;\n',
-    codeLine: 2 },
-  { docsText: 'comment 2\n',
-    docsLine: 3,
-    codeText: 'if (code) code += 1\n',
-    codeLine: 4 } ]
+{ split: 
+   [ { docsText: 'comment 1\n',
+       docsLine: 1,
+       codeText: 'var code = 1;\n',
+       codeLine: 2 },
+     { docsText: 'comment 2\n',
+       docsLine: 3,
+       codeText: 'if (code) code += 1\n',
+       codeLine: 4 } ],
+  dox: 
+   [ { tags: [],
+       description: { full: '', summary: '', body: '' },
+       isPrivate: false,
+       isConstructor: false,
+       line: 1,
+       codeStart: NaN,
+       code: '// comment 1\nvar code = 1;\n// comment 2\nif (code) code += 1',
+       ctx: undefined } ] }
+
 ```
 
 * input:
@@ -98,22 +151,23 @@ if (code) code += 1
 output:
 
 ```javascript
-[ { docsText: '',
-    docsLine: 1,
-    codeText: '<html>\n  ',
-    codeLine: 1 },
-  { docsText: 'title part',
-    docsLine: 2,
-    codeText: '\n  <head><title> title </title></head>\n<body>\n  ',
-    codeLine: 3 },
-  { docsText: 'main body',
-    docsLine: 5,
-    codeText: '\n  <h1>hello world</h1>\n',
-    codeLine: 6 },
-  { docsText: 'the end',
-    docsLine: 7,
-    codeText: '\n</body>\n</html>\n',
-    codeLine: 8 } ]
+{ split: 
+   [ { docsText: '',
+       docsLine: 1,
+       codeText: '<html>\n  ',
+       codeLine: 1 },
+     { docsText: 'title part',
+       docsLine: 2,
+       codeText: '\n  <head><title> title </title></head>\n<body>\n  ',
+       codeLine: 3 },
+     { docsText: 'main body',
+       docsLine: 5,
+       codeText: '\n  <h1>hello world</h1>\n',
+       codeLine: 6 },
+     { docsText: 'the end',
+       docsLine: 7,
+       codeText: '\n</body>\n</html>\n',
+       codeLine: 8 } ] }
 ```
 ## BUGS
 
@@ -141,6 +195,8 @@ html
   head
     title Another Title
 ```
+
+Neither is CoffeeScript multi line `###` comment.
 
 ## TODO
 
