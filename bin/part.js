@@ -11,6 +11,10 @@
     fileData += data.toString();
   });
   process.stdin.on('end', function () {
-    console.log(util.inspect(part(filePath, fileData), {depth: 100, colors: true}));
+    part(filePath, fileData)
+      .on('end', function (err, file) {
+        console.log(util.inspect(file.sections, {depth: 100, colors: true})); })
+      .on('error', function (err) {
+        console.error(err); });
   });
 })();
