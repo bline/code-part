@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/bline/code-part",
   "devDependencies": {
-    "chai": "2.0.x",
+    "chai": "1.10.x",
     "del": "0.1.x",
     "gulp": "3.8.x",
     "gulp-coverage": "0.3.x",
