@@ -71,6 +71,7 @@
         }).to.throw();
       });
       it("should allow no src", function (next) {
+        this.timeout(10000); // timing out under debug on c9
         var p = new part.Part();
         p.parse("foo.js", function (err) {
           expect(err).to.exist();
