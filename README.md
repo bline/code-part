@@ -34,7 +34,8 @@ have a look at [resources/languages.json](./resources/languages.json).
   // Path is used to decide which parser to use
   // (html or lineBased currently) and decides comment
   // parsing in lineBased.
-  var sections = part(path, code, config);
+  part(path, code, config, function (err, sections) {
+  });
 
   // If code is null, the specified path is assumed
   // to be a path on the file system and is read in
@@ -45,7 +46,7 @@ have a look at [resources/languages.json](./resources/languages.json).
 
 ```javascript
 
-  var section = part(path, code, {
+  part(path, code, {
     // Options used when parsing html.
     // By default the parser will skip comments that start with
     // `<!--[`. Set to `true` to include these as comments.
@@ -57,7 +58,7 @@ have a look at [resources/languages.json](./resources/languages.json).
     // when looking up comment markers and deciding if it
     // is literate (litcoffee).
     extension: '.css'
-  });
+  }, callback);
 ```
 
 ## Output
