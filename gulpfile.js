@@ -21,7 +21,7 @@
         debugDirectory: 'debug'}))
       .pipe($.plumber())
       .pipe($.mocha({reporter: 'dot'})
-            .on('error', function () { this.emit('end'); })) // test errors dropped
+            .on('error', function (err) { console.log("test error: " + err); this.emit('end'); })) // test errors dropped
       .pipe($.plumber.stop())
       .pipe($.coverage.gather())
       .pipe($.coverage.format(opts));
