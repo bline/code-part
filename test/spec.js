@@ -57,34 +57,23 @@
         var p = new part.Part();
         expect(p.opt).to.deep.equal(part.Part.defaults);
       });
-      it("should append code-part-plugin-", function (next) {
+      it("should append throw on invalid plugins", function (next) {
         var p = new part.Part({ plugins: ['foo-bar']});
         p.on('error', function (err) {
-          expect(err).to.match(/"code-part-plugin-foo-bar"/);
+          expect(err).to.exist();
           next();
         });
-        p.init();
-      });
-      it("should allow exact plugin include", function (next) {
-        var p = new part.Part({ plugins: ['=foo-bar']});
-        p.on('error', function (err) {
-          expect(err).to.match(/"foo-bar"/);
-          next();
-        });
-        p.init();
       });
       it("should throw error with no filename", function () {
         var p = new part.Part();
-        p.init();
         expect(function () {
           p.parse();
         }).to.throw();
       });
       it("should allow no src", function (next) {
         var p = new part.Part();
-        p.init();
         p.parse("foo.js", function (err) {
-          expect(err).to.not.be.undefined();
+          expect(err).to.exist();
           next();
         });
       });
@@ -232,7 +221,7 @@
            [section("", 1, "<div>\n<!--[if foo]--></div>", 1)], next);
       });
       it("should explicitly skip directives", function (next) {
-        ptSplit(['t.html', "<div>\n<!--[if foo]--></div>", {split: { html: {noSkipDirectives: false }}}],
+        ptSplit(['t.html', "<div>\n<!--[if foo]--></div>", {tokenize: { html: {noSkipDirectives: false }}}],
            [section("", 1, "<div>\n<!--[if foo]--></div>", 1)], next);
       });
       it("should skip bang", function (next) {
@@ -240,11 +229,11 @@
            [section("", 1, "<div>\n<!--! foo --></div>", 1)], next);
       });
       it("should not skip bang", function (next) {
-        ptSplit(['t.html', "<div>\n<!--! foo --></div>", {split: { html: {noSkipBang: true} } }],
+        ptSplit(['t.html', "<div>\n<!--! foo --></div>", {tokenize: { html: {noSkipBang: true} } }],
            [section("", 1, "<div>\n", 1), section("! foo", 2, "</div>", 2)], next);
       });
       it("should not skip directives", function (next) {
-        ptSplit(['t.html', "<div>\n<!--[if foo]--></div>", {split: { html: {noSkipDirectives: true} } }],
+        ptSplit(['t.html', "<div>\n<!--[if foo]--></div>", {tokenize: { html: {noSkipDirectives: true} } }],
            [section("", 1, "<div>\n", 1), section("[if foo]", 2, "</div>", 2)], next);
       });
       it("should respect new extension", function (next) {
