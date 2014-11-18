@@ -84,11 +84,7 @@
         var p = new part.Part();
         p.init();
         p.parse("foo.js", function (err) {
-          // XXX making undefined call as undefined() somehow blocks all
-          // following tests
-          /* jshint -W030 */
-          expect(err).to.not.be.undefined;
-          /* jshint +W030 */
+          expect(err).to.not.be.undefined();
           next();
         });
       });

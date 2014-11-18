@@ -29,7 +29,7 @@
     "gulp-coveralls": "0.1.x",
     "gulp-jshint": "1.9.x",
     "gulp-load-plugins": "0.7.x",
-    "gulp-mocha": "1.1.x",
+    "gulp-mocha": "2.0.x",
     "gulp-plumber": "0.6.x",
     "jshint-table-reporter": "0.1.x",
     "opn": "1.0.x"
